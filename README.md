@@ -117,6 +117,14 @@ can load from bytes instead of an mmap'd file, and a `wasm` feature exports
 - Safari clears script-written storage after 7 days without a visit unless the
   app is added to the home screen; the page doesn't prompt for that yet.
 
+## Roadmap and contributing
+
+See [`ROADMAP.md`](ROADMAP.md). Every item is an issue with testable acceptance
+criteria. Issues labelled `agent-ready` are also built by a nightly coding agent
+that opens pull requests for review ([`AGENTS.md`](AGENTS.md) has its rules,
+which apply to human contributors too). Issues labelled `needs-human`, such as
+testing on real phones or listening tests, are the most useful place to help.
+
 ## Responsible use
 
 Only clone voices you have the right to use, never to impersonate, defraud or

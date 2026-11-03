@@ -124,6 +124,15 @@ file mmap, và tính năng `wasm` xuất `SeaG2p` qua wasm-bindgen (`src/wasm.rs
   ứng dụng được thêm vào màn hình chính; trang hiện chưa nhắc người dùng làm việc
   này.
 
+## Lộ trình và đóng góp
+
+Xem [`ROADMAP.md`](ROADMAP.md). Mỗi hạng mục là một issue có tiêu chí nghiệm thu
+kiểm tra được bằng test. Các issue gắn nhãn `agent-ready` còn được một coding
+agent chạy hằng đêm thực hiện và mở pull request để review ([`AGENTS.md`](AGENTS.md)
+ghi các quy tắc, áp dụng cho cả người đóng góp). Các issue gắn nhãn
+`needs-human`, như thử trên điện thoại thật hay nghe thử giọng đọc, là nơi bạn
+giúp được nhiều nhất.
+
 ## Sử dụng có trách nhiệm
 
 Chỉ nhân bản giọng mà bạn có quyền sử dụng; không bao giờ dùng để mạo danh, lừa

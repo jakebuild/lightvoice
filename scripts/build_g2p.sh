@@ -11,9 +11,14 @@ cd "$(dirname "$0")/.."
 SEA_G2P_REPO=https://github.com/pnnbao97/sea-g2p.git
 SEA_G2P_COMMIT=e825173f235d08ea19315b2b279fb11153b44cea
 
-if [[ ! -d vendor/sea-g2p ]]; then
-  git clone -q "$SEA_G2P_REPO" vendor/sea-g2p
-  git -C vendor/sea-g2p checkout -q "$SEA_G2P_COMMIT"
+# Checked by Cargo.toml, not the directory: CI restores a cached target/ into
+# vendor/sea-g2p before the sources exist. Fetching into the existing directory
+# keeps that cache.
+if [[ ! -f vendor/sea-g2p/Cargo.toml ]]; then
+  mkdir -p vendor/sea-g2p
+  git -C vendor/sea-g2p init -q
+  git -C vendor/sea-g2p fetch -q --depth 1 "$SEA_G2P_REPO" "$SEA_G2P_COMMIT"
+  git -C vendor/sea-g2p checkout -q FETCH_HEAD
   git -C vendor/sea-g2p apply ../sea-g2p-lightvoice.patch
 fi
 
