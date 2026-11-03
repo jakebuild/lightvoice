@@ -1,0 +1,27 @@
+LightVoice
+Copyright 2026 Jakebuild
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This project runs, converts and redistributes the following third-party works.
+Their licenses are listed in THIRD_PARTY_NOTICES.md.
+
+VieNeu-TTS v3 Nano — model weights, configuration and preset voices
+  Copyright Pham Nguyen Ngoc Bao. Apache License 2.0.
+  https://github.com/pnnbao97/VieNeu-TTS
+  https://huggingface.co/pnnbao-ump/VieNeu-TTS-v3-Nano
+  Changes: the ONNX graphs are re-saved with large weights stored as float16
+  (computed in float32; scripts/fp16_weights.py), and the configuration and
+  preset voices are repacked into nano.json / nano.bin
+  (scripts/prepare_assets.py). The inference, text-chunking and voice-cloning
+  code is reimplemented in JavaScript from the vieneu Python package
+  (Apache License 2.0).
+
+sea-g2p — Vietnamese text normalization and grapheme-to-phoneme
+  Copyright Pham Nguyen Ngoc Bao. Apache License 2.0.
+  https://github.com/pnnbao97/sea-g2p
+  Changes: vendor/sea-g2p-lightvoice.patch (load the dictionary from memory;
+  wasm-bindgen exports for the browser). The shipped dictionary keeps only the
+  Vietnamese and English tables (scripts/strip_dict.py).
+
+ONNX Runtime Web — Copyright (c) Microsoft Corporation. MIT License.

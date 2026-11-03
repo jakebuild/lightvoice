@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LightVoice</title>
+  <meta name="description" content="Vietnamese text-to-speech that runs entirely in your browser, offline.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>LightVoice</h1>
+      <p class="sub">Vietnamese text-to-speech running entirely in this browser, using VieNeu-TTS v3 Nano. Nothing is sent to a server.</p>
+    </header>
+
+    <section id="setup" class="card">
+      <div class="row">
+        <label for="backend">Backend</label>
+        <select id="backend">
+          <option value="webgpu">WebGPU</option>
+          <option value="wasm">WASM (CPU)</option>
+        </select>
+        <button id="load" class="primary">Load model</button>
+      </div>
+      <p class="hint" id="storage">Checking what is saved on this device…</p>
+      <div id="progress" hidden>
+        <div class="bar"><div id="bar-fill"></div></div>
+        <p id="progress-text" class="hint"></p>
+      </div>
+    </section>
+
+    <section id="tts" class="card" hidden>
+      <textarea id="text" rows="6" spellcheck="false">Xin chào, mình là LightVoice. Mình đọc tiếng Việt ngay trong trình duyệt, không cần mạng. Hôm nay là ngày 15/3/2025, nhiệt độ ngoài trời khoảng 28°C.</textarea>
+      <div class="controls">
+        <label>Voice <select id="voice"></select></label>
+        <label>Steps <input id="steps" type="number" min="2" max="32" value="16"></label>
+        <label>Speed <input id="speed" type="number" min="0.5" max="2" step="0.1" value="1"></label>
+        <label>Seed <input id="seed" type="number" placeholder="random"></label>
+      </div>
+      <div class="row">
+        <button id="speak" class="primary">Speak</button>
+        <span id="status" class="hint"></span>
+      </div>
+      <audio id="player" controls hidden></audio>
+      <a id="download" download="lightvoice.wav" hidden>Download WAV</a>
+      <details>
+        <summary>Phonemes</summary>
+        <pre id="phonemes"></pre>
+      </details>
+    </section>
+
+    <section id="clone" class="card" hidden>
+      <h2>Clone your voice</h2>
+      <p class="hint">Record yourself reading the sentence below, or upload a clip: 5–10 seconds, one speaker, a quiet room. The voice is made on this device and stays in this browser.</p>
+      <blockquote id="prompt">Xin chào, mình đang thử tạo giọng đọc của riêng mình. Hôm nay trời đẹp, mình muốn kể cho các bạn nghe một câu chuyện thú vị.</blockquote>
+      <div class="row">
+        <button id="record">Record</button>
+        <label class="file">Upload a clip <input id="upload" type="file" accept="audio/*"></label>
+        <span id="clip-status" class="hint"></span>
+      </div>
+      <audio id="clip-player" controls hidden></audio>
+      <div id="clone-form" hidden>
+        <div class="row">
+          <label>Name <input id="clone-name" type="text" maxlength="40" placeholder="Giọng của tôi"></label>
+        </div>
+        <label class="consent"><input id="consent" type="checkbox"> This is my own voice, or I have the speaker's permission to use it.</label>
+        <div class="row">
+          <button id="create-voice" class="primary" disabled>Create voice</button>
+          <span id="clone-status" class="hint"></span>
+        </div>
+      </div>
+      <div id="my-voices"></div>
+    </section>
+
+    <footer class="hint">
+      <p id="env"></p>
+      <p>Voice model: <a href="https://huggingface.co/pnnbao-ump/VieNeu-TTS-v3-Nano">VieNeu-TTS v3 Nano</a> by Pham Nguyen Ngoc Bao (Apache-2.0). Speech on this page is synthetic. <a href="licenses/THIRD_PARTY_NOTICES.txt">Licenses</a></p>
+    </footer>
+  </main>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

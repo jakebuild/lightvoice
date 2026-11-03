@@ -1,0 +1,20 @@
+# Dependencies and toolchains
+node_modules/
+.venv/
+
+# Build outputs (see README "Setup")
+web/models/
+web/vendor/
+web/g2p/
+web/licenses/
+web/assets.json
+vendor/sea-g2p/
+
+# Local experiments: recordings and clips of real voices, generated audio
+sample.wav
+ref/
+*.wav
+!tests/golden/*.wav
+
+# Python
+__pycache__/

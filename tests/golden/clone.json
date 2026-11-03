@@ -1,0 +1,20 @@
+{
+ "clip_samples": 199800,
+ "trimmed_samples": 184832,
+ "wav16_samples": 123221,
+ "fbank_shape": [
+  768,
+  80
+ ],
+ "mu_shape": [
+  1,
+  24,
+  468
+ ],
+ "style_shape": [
+  50,
+  256
+ ],
+ "spk_from_soxr_fbank_cos": 1.0000001192092896,
+ "fp32_snapshot": "aba295eb96a6fa6003ebe417cc1f2802a7adc1dc"
+}

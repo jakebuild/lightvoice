@@ -1,0 +1,46 @@
+[
+ {
+  "text": "Xin chào, mình là giọng đọc của VieNeu Nano.",
+  "chunks": [
+   "xin chào, mình là giọng đọc của vie neu nano."
+  ],
+  "gaps": [],
+  "phonemes": [
+   "sˈin tʃˈaː2w, mˈi2ɲ lˌaː2 zˈɔ6ŋ ɗˈɔ6k kˌuə4 vˈaɪ nˈuː nˌænoʊ."
+  ]
+ },
+ {
+  "text": "Hôm nay là ngày 15/3/2025, nhiệt độ 28°C.",
+  "chunks": [
+   "hôm nay là ngày mười lăm tháng ba năm hai nghìn không trăm hai mươi lăm, nhiệt độ hai mươi tám độ xê."
+  ],
+  "gaps": [],
+  "phonemes": [
+   "hˈom nˈaj lˌaː2 ŋˈa2j mˈyə2j lˈam tˈaːɜŋ bˈaː nˈam hˈaːj ŋˈi2n xˌoŋ tʃˈam hˈaːj mˈyəj lˈam, ɲˈiɛ6t̪ ɗˈo6 hˈaːj mˈyəj t̪ˈaːɜm ɗˈo6 sˈe."
+  ]
+ },
+ {
+  "text": "Tôi đang dùng iPhone và mở app Facebook để xem video [cười] vui quá!",
+  "chunks": [
+   "tôi đang dùng i phone và mở app facebook để xem video <|emotion_1|> vui quá!"
+  ],
+  "gaps": [],
+  "phonemes": [
+   "t̪ˈoj ɗˌaːŋ zˈu2ŋ ˈaɪ fˈoʊn vˌaː2 mˈəː4 ˈæp fˈeɪsbʊk ɗˌe4 sˈɛm vˈɪdɪoʊ <|emotion_1|> vˈuj kwˈaːɜ!"
+  ]
+ },
+ {
+  "text": "Giá 3,5 triệu đồng, giảm 20% còn 2.800.000đ.\nĐoạn văn thứ hai. Thế à? Ừ.",
+  "chunks": [
+   "giá ba phẩy năm triệu đồng, giảm hai mươi phần trăm còn hai triệu tám trăm nghìn đồng.",
+   "đoạn văn thứ hai. thế à? ừ."
+  ],
+  "gaps": [
+   "para"
+  ],
+  "phonemes": [
+   "zˈaːɜ bˈaː fˈəɪ4 nˈam tʃˈiɛ6w ɗˈo2ŋ, zˈaː4m hˈaːj mˈyəj fˈə2n tʃˈam kˌɔ2n hˈaːj tʃˈiɛ6w t̪ˈaːɜm tʃˈam ŋˈi2n ɗˈo2ŋ.",
+   "ɗwˈaː6n vˈan tˈyɜ hˈaːj. tˈeɜ ˈaː2? ˈy2."
+  ]
+ }
+]
