@@ -7,7 +7,8 @@ const root = new URL("../", import.meta.url);
 const src = new URL("node_modules/onnxruntime-web/dist/", root);
 const dst = new URL("web/vendor/ort/", root);
 await mkdir(dst, { recursive: true });
-const keep = (f) => f === "ort.webgpu.min.mjs" || /^ort-wasm-simd-threaded(\.asyncify|\.jsep)?\.(mjs|wasm)$/.test(f);
+// ort.webgpu.min.mjs only ever loads the asyncify build (for the WASM and WebGPU backends alike).
+const keep = (f) => f === "ort.webgpu.min.mjs" || /^ort-wasm-simd-threaded\.asyncify\.(mjs|wasm)$/.test(f);
 for (const f of (await readdir(src)).filter(keep)) {
   await cp(new URL(f, src), new URL(f, dst));
   console.log("vendor/ort/" + f);

@@ -33,30 +33,41 @@ let backendUsed = "wasm";
 
 const post = (msg, transfer) => self.postMessage(msg, transfer ?? []);
 
-/** Fetch a file once, then serve it from Cache Storage (works offline). */
-async function cachedBytes(url, file) {
+/**
+ * Fetch a manifest file once, then serve it from Cache Storage (works offline).
+ * A file split for hosting (`parts` in assets.json, see scripts/build_dist.mjs)
+ * is fetched piece by piece and cached whole under its own versioned URL.
+ */
+async function cachedBytes(f, base) {
+  const url = versionedUrl(f, base);
+  const file = f.path.split("/").pop();
   const cache = await caches.open(MODEL_CACHE);
-  let res = await cache.match(url);
-  if (!res) {
-    const net = await fetch(url);
-    if (!net.ok) throw new Error(`${url}: HTTP ${net.status}`);
-    const total = Number(net.headers.get("content-length")) || 0;
+  const res = await cache.match(url);
+  if (res) {
+    post({ type: "progress", stage: "cached", file });
+    return new Uint8Array(await res.arrayBuffer());
+  }
+  const urls = f.parts
+    ? Array.from({ length: f.parts }, (_, i) => `${new URL(`${f.path}.part${i}`, base).href}?v=${f.hash}`)
+    : [url];
+  const chunks = [];
+  let loaded = 0;
+  for (const u of urls) {
+    const net = await fetch(u);
+    if (!net.ok) throw new Error(`${u}: HTTP ${net.status}`);
     const reader = net.body.getReader();
-    const parts = [];
-    let loaded = 0;
     for (;;) {
       const { done, value } = await reader.read();
       if (done) break;
-      parts.push(value);
+      chunks.push(value);
       loaded += value.length;
-      post({ type: "progress", stage: "download", file, loaded, total });
+      post({ type: "progress", stage: "download", file, loaded, total: f.bytes });
     }
-    const blob = new Blob(parts);
-    await cache.put(url, new Response(blob, { headers: { "content-type": net.headers.get("content-type") ?? "" } }));
-    return new Uint8Array(await blob.arrayBuffer());
   }
-  post({ type: "progress", stage: "cached", file });
-  return new Uint8Array(await res.arrayBuffer());
+  const blob = new Blob(chunks);
+  if (blob.size !== f.bytes) throw new Error(`${f.path}: got ${blob.size} bytes, expected ${f.bytes}`);
+  await cache.put(url, new Response(blob));
+  return new Uint8Array(await blob.arrayBuffer());
 }
 
 /** Inflate gzip bytes. Passes plain bytes through, in case a host already set
@@ -72,8 +83,12 @@ async function init(backend) {
   const base = new URL("../", import.meta.url);
   // assets.json comes through the service worker (network-first, cached for offline).
   const manifest = (await (await fetch(new URL("assets.json", base))).json()).files.filter((f) => f.cache === "models");
+  const byPath = Object.fromEntries(manifest.map((f) => [f.path, f]));
   const urls = Object.fromEntries(manifest.map((f) => [f.path, versionedUrl(f, base)]));
-  get = (path) => cachedBytes(urls[path], path.split("/").pop());
+  get = (path) => cachedBytes(byPath[path], base);
+  // onnxruntime's WASM goes through the same cache (it can be split for hosting);
+  // handing it over as bytes stops ort from fetching it itself.
+  ort.env.wasm.wasmBinary = await get("vendor/ort/ort-wasm-simd-threaded.asyncify.wasm");
   const [meta, bin, dict] = await Promise.all([
     get("models/nano.json").then((b) => JSON.parse(new TextDecoder().decode(b))),
     get("models/nano.bin").then((b) => new Float32Array(b.buffer, b.byteOffset, b.byteLength / 4)),

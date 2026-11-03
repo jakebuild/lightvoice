@@ -7,7 +7,8 @@
     "serve": "node scripts/serve.mjs",
     "vendor": "node scripts/vendor_ort.mjs",
     "build:g2p": "scripts/build_g2p.sh",
-    "manifest": "node scripts/manifest.mjs"
+    "manifest": "node scripts/manifest.mjs",
+    "build": "npm run manifest && node scripts/build_dist.mjs"
   },
   "license": "Apache-2.0",
   "type": "module",

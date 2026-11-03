@@ -16,7 +16,9 @@ const files = [
   ...["speaker_encoder.onnx", "codec_encoder.onnx", "reference_encoder.onnx"]
     .map((f) => ({ path: `models/clone/${f}`, cache: "models", optional: "clone" })),
   { path: "g2p/sea_g2p_rs_bg.wasm", cache: "shell" },
-  { path: "vendor/ort/ort-wasm-simd-threaded.asyncify.wasm", cache: "shell" },
+  // Loaded by the worker and handed to onnxruntime as env.wasm.wasmBinary, so it
+  // can be split like the graphs (it is over Cloudflare Pages' 25 MiB file limit).
+  { path: "vendor/ort/ort-wasm-simd-threaded.asyncify.wasm", cache: "models" },
 ];
 for (const f of files) {
   const bytes = await readFile(new URL(f.path, web));

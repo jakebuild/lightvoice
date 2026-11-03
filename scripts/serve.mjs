@@ -1,7 +1,7 @@
 // Static server for web/. Sends COOP/COEP so the page is cross-origin isolated,
 // which onnxruntime-web needs for multi-threaded WASM.
 //
-//   node scripts/serve.mjs [port]
+//   node scripts/serve.mjs [port] [dir]     dir: web (default) or dist
 
 import { createServer } from "node:http";
 import { createReadStream } from "node:fs";
@@ -9,7 +9,7 @@ import { stat } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = fileURLToPath(new URL("../web/", import.meta.url));
+const root = fileURLToPath(new URL(`../${process.argv[3] ?? "web"}/`, import.meta.url));
 const port = Number(process.argv[2] ?? 8080);
 const types = {
   ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".mjs": "text/javascript",
