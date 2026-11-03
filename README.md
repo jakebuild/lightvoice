@@ -2,7 +2,7 @@
 
 **English** · [Tiếng Việt](README.vi.md)
 
-**Live demo: https://lightvoice.jakesale.workers.dev**
+**Live demo: https://lightvoice.jakeoss.workers.dev**
 
 Vietnamese text-to-speech that runs entirely in the browser and works offline:
 [VieNeu-TTS v3 Nano](https://github.com/pnnbao97/VieNeu-TTS) (48M-parameter flow-matching

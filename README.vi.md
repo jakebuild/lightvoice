@@ -2,7 +2,7 @@
 
 [English](README.md) · **Tiếng Việt**
 
-**Dùng thử: https://lightvoice.jakesale.workers.dev**
+**Dùng thử: https://lightvoice.jakeoss.workers.dev**
 
 Chuyển văn bản tiếng Việt thành giọng nói, chạy hoàn toàn trong trình duyệt và
 dùng được khi không có mạng: mô hình
