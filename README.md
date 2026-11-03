@@ -1,12 +1,16 @@
 # LightVoice
 
+**English** · [Tiếng Việt](README.vi.md)
+
+**Live demo: https://lightvoice.jakesale.workers.dev**
+
 Vietnamese text-to-speech that runs entirely in the browser and works offline:
 [VieNeu-TTS v3 Nano](https://github.com/pnnbao97/VieNeu-TTS) (48M-parameter flow-matching
 model, Apache-2.0) on onnxruntime-web, with the [sea-g2p](https://github.com/pnnbao97/sea-g2p)
 Vietnamese normalizer/phonemizer compiled to WebAssembly.
 
 Speak Vietnamese text with 11 preset voices, or clone your own voice from a
-5–10 second recording. After the first visit (~160 MB download) it works with
+5–10 second recording. After the first visit (~190 MB download) it works with
 no network, and nothing you type or record leaves the device.
 
 ## Setup
@@ -105,10 +109,11 @@ can load from bytes instead of an mmap'd file, and a `wasm` feature exports
 - In-browser cloning skips VieNeu's optional denoiser (43 MB), so a noisy
   recording makes a noisier voice. Uploading a clip is tested end to end; the
   microphone path (MediaRecorder) has not been tested on a real device yet.
-- First load is ~190 MB on disk: 136 MB of graphs (fp16 weights barely
-  compress), a 15 MB gzipped dictionary (Vietnamese/English only, 50 MB once
-  inflated; `scripts/strip_dict.py`), and ~33 MB of WASM runtimes, which drop
-  to ~8 MB on the wire on any host that gzips `application/wasm`.
+- First load is ~190 MB: 136 MB of graphs (fp16 weights barely compress), a
+  15 MB gzipped dictionary (Vietnamese/English only, 50 MB once inflated;
+  `scripts/strip_dict.py`), 29 MB of onnxruntime WASM and 4 MB of sea-g2p WASM.
+  The onnxruntime WASM ships as split parts, so hosts don't compress it; it
+  would gzip to ~7 MB.
 - Safari clears script-written storage after 7 days without a visit unless the
   app is added to the home screen; the page doesn't prompt for that yet.
 
