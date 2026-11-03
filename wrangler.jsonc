@@ -1,0 +1,11 @@
+// Cloudflare Workers static assets: serves dist/ (npm run build) as-is, with
+// dist/_headers for cross-origin isolation and caching. No Worker script.
+//   npm run build && npx wrangler deploy
+{
+  "name": "lightvoice",
+  "compatibility_date": "2026-11-02",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

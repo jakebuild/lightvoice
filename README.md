@@ -29,6 +29,18 @@ npm run serve                                # http://localhost:8080
 `serve` sends COOP/COEP headers; without cross-origin isolation onnxruntime-web
 falls back to one WASM thread. Any static host works if it sends the same headers.
 
+## Deploy
+
+```bash
+npm run build            # web/ -> dist/: files over 20 MiB split into parts, _headers written
+npx wrangler deploy      # Cloudflare Workers static assets (wrangler.jsonc), no Worker script
+```
+
+Cloudflare rejects files over 25 MiB, so `scripts/build_dist.mjs` splits the
+large graphs and onnxruntime's WASM into `.partN` files; the worker fetches the
+parts and caches the joined file. `node scripts/serve.mjs 8081 dist` serves the
+build locally the same way.
+
 ## Adding a voice
 
 ```bash
