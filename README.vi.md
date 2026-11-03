@@ -23,7 +23,7 @@ có target `wasm32-unknown-unknown` (`rustup target add wasm32-unknown-unknown`)
 Mô hình, runtime và bộ chuyển âm vị được build trên máy, không nằm trong repo.
 
 ```bash
-uv venv .venv && uv pip install --python .venv/bin/python vieneu onnx
+uv venv .venv && uv pip install --python .venv/bin/python -r requirements.txt
 npm install
 .venv/bin/python scripts/prepare_assets.py   # mô hình -> web/models, dữ liệu kiểm thử -> tests/golden
 npm run vendor                               # runtime onnxruntime-web -> web/vendor/ort

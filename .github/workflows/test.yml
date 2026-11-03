@@ -1,0 +1,74 @@
+# Builds everything from scratch (model download, fp16 conversion, golden data,
+# sea-g2p WASM) and runs the parity tests and the hosting build. Pull requests
+# from the nightly agent are only mergeable when this passes.
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache Hugging Face models
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface/hub
+          key: hf-${{ hashFiles('requirements.txt', 'scripts/prepare_assets.py') }}
+          restore-keys: hf-
+
+      - name: Cache cargo (crates, wasm-bindgen-cli)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/wasm-bindgen
+            ~/.cargo/registry
+            ~/.cargo/git
+            vendor/sea-g2p/target
+          key: cargo-${{ hashFiles('scripts/build_g2p.sh', 'vendor/sea-g2p-lightvoice.patch') }}
+          restore-keys: cargo-
+
+      - name: Python environment
+        run: |
+          uv venv .venv
+          uv pip install --python .venv/bin/python -r requirements.txt
+
+      - run: npm ci
+
+      - name: Prepare model assets and golden data
+        run: .venv/bin/python scripts/prepare_assets.py
+
+      - name: Golden data must match what is committed
+        # prepare_assets.py regenerates tests/golden; any drift means the Python
+        # reference changed underneath the port.
+        run: git diff --stat --exit-code -- tests/golden/text.json
+
+      - run: npm run vendor
+      - run: npm run build:g2p
+      - run: npm run manifest
+      - run: npm test
+      - name: Hosting build (fails on any file over 25 MiB)
+        run: npm run build

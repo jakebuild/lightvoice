@@ -1,0 +1,7 @@
+# Python side: model preparation, golden test data, voice tools (not shipped to the browser).
+#   uv venv .venv && uv pip install --python .venv/bin/python -r requirements.txt
+# Pinned: the golden tests compare the browser port against exactly this vieneu / sea-g2p.
+vieneu==3.8.3
+sea-g2p==0.10.0
+onnx==1.23.2
+onnxruntime==1.31.1

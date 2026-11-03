@@ -20,7 +20,7 @@ with the `wasm32-unknown-unknown` target (`rustup target add wasm32-unknown-unkn
 The model, runtime and phonemizer are built locally and not committed.
 
 ```bash
-uv venv .venv && uv pip install --python .venv/bin/python vieneu onnx
+uv venv .venv && uv pip install --python .venv/bin/python -r requirements.txt
 npm install
 .venv/bin/python scripts/prepare_assets.py   # model -> web/models, golden test data -> tests/golden
 npm run vendor                               # onnxruntime-web runtime -> web/vendor/ort
