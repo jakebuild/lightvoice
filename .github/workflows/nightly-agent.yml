@@ -6,10 +6,11 @@
 #   1. Install the Claude GitHub app on this repo (`/install-github-app` in
 #      Claude Code). Its token makes the agent's PRs trigger the test workflow;
 #      PRs opened with the default GITHUB_TOKEN would not.
-#   2. Add the repository secret ANTHROPIC_API_KEY.
+#   2. Run `claude setup-token` (Claude Pro or Max) and store the result as the
+#      repository secret CLAUDE_CODE_OAUTH_TOKEN. Runs then use the
+#      subscription's usage limits; no API key or API billing.
 #   3. Set the repository variable NIGHTLY_AGENT to `on`.
-#   4. Protect `main` (require a pull request and the `test` check) so nothing
-#      reaches it without review.
+#   (`main` is protected: a pull request and the `test` check are required.)
 name: nightly-agent
 
 on:
@@ -79,7 +80,7 @@ jobs:
 
       - uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             REPO: ${{ github.repository }}
             The environment is already built (Python venv, node_modules, web/models,
